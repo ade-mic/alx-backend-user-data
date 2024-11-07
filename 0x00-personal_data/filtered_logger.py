@@ -60,6 +60,7 @@ def get_logger() -> logging.Logger:
     and RedactingFormater
     """
     logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
     logger.propagate = False
 
     stream_handler = logging.StreamHandler()
