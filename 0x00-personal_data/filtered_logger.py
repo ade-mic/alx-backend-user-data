@@ -96,9 +96,12 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}",
                   message)
 
+
 def get_db() -> connection.MySQLConnection:
     """
     Returns a connector to the database
+    Args:
+        None
     """
     username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
@@ -110,4 +113,3 @@ def get_db() -> connection.MySQLConnection:
         host=host,
         database=database
     )
-
