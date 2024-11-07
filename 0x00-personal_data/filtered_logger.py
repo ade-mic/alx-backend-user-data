@@ -20,7 +20,7 @@ from typing import List
 import re
 import logging
 
-PII_FIELDS = ('name', 'email', 'password', 'ssn', 'ip')
+PII_FIELDS = ('name', 'email', 'password', 'ssn', 'phone')
 
 
 class RedactingFormatter(logging.Formatter):
