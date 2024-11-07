@@ -99,7 +99,8 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
 def get_db() -> connection.MySQLConnection:
     """
-    Returns a connector to the database
+    Establishes and returns a
+    connection to the MySQL database
     Args:
         None
     """
@@ -107,9 +108,28 @@ def get_db() -> connection.MySQLConnection:
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
     database = os.getenv('PERSONAL_DATA_DB_NAME', 'holberton')
-    return connection.MySQLConnection(
+    return mysql.connector.connect(
         user=username,
         password=password,
         host=host,
         database=database
     )
+
+def main():
+    """Main function to retrieve and display user data."""
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        log_message = "; ".join([f"{key}={value}" for key, value in row.items()])
+        logger.info(log_message)
+
+    cursor.close()
+    db.close()
+
+if __name__ == "__main__":
+    main()
