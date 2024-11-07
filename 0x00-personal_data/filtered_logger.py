@@ -19,6 +19,9 @@ use re.sub to perform the substitution with a single regex.
 from typing import List
 import re
 import logging
+import os
+import mysql.connector
+from mysql.connector import connection
 
 PII_FIELDS = ('name', 'email', 'password', 'ssn', 'phone')
 
@@ -92,3 +95,19 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     pattern = f"({'|'.join(fields)})=([^ {separator}]*)"
     return re.sub(pattern, lambda m: f"{m.group(1)}={redaction}",
                   message)
+
+def get_db() -> connection.MySQLConnection:
+    """
+    Returns a connector to the database
+    """
+    username = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    database = os.getenv('PERSONAL_DATA_DB_NAME')
+    return mysql.connector.connect(
+        user=username,
+        password=password,
+        host=host,
+        database=database
+    )
+
