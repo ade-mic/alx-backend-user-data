@@ -115,7 +115,8 @@ def get_db() -> connection.MySQLConnection:
         database=database
     )
 
-def main():
+
+def main() -> None:
     """Main function to retrieve and display user data."""
     logger = get_logger()
     db = get_db()
@@ -125,11 +126,13 @@ def main():
     rows = cursor.fetchall()
 
     for row in rows:
-        log_message = "; ".join([f"{key}={value}" for key, value in row.items()])
+        log_message = "; ".join([f"{key}={value}"
+                                 for key, value in row.items()])
         logger.info(log_message)
 
     cursor.close()
     db.close()
+
 
 if __name__ == "__main__":
     main()
