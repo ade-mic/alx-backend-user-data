@@ -7,7 +7,7 @@ returns a salted, hashed password, which is a byte string.
 import bcrypt
 
 
-def hash_password(password: str):
+def hash_password(password: str) -> str:
     """
     a hash_password function that expects
     one string argument name password and
