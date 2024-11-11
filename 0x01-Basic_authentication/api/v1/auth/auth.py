@@ -2,7 +2,7 @@
 """
 The module contains api/v1/auth/auth.py
 """
-from  flask import request
+from flask import request
 from typing import List, TypeVar
 
 
@@ -11,10 +11,10 @@ class Auth:
     a class for API authentication
     public method:
         def require_auth(
-            self, path: str, 
-            excluded_paths: List[str]) -> bool: 
+            self, path: str,
+            excluded_paths: List[str]) -> bool:
             that returns False - path and excluded_paths will be used later
-        def authorization_header(self, request=None) -> str: 
+        def authorization_header(self, request=None) -> str:
             that returns None - request will be the Flask request object
         def current_user(self, request=None) -> TypeVar('User'):
             that returns None - request will be the Flask request object
@@ -45,7 +45,7 @@ class Auth:
         """
         if request is None:
             return None
-        if  'Authorization' not in request.header:
+        if 'Authorization' not in request.header:
             return None
         return request.header.get('Authorization')
 
