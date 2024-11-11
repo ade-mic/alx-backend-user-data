@@ -21,6 +21,9 @@ if auth == 'auth':
 
 @app.before_request
 def before_request():
+    """
+    Handler executed before each request to enforce authentication.
+    """
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
