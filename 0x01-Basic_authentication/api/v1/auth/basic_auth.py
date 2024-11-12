@@ -77,7 +77,7 @@ class BasicAuth(Auth):
                     user_email: str,
                     user_pwd: str
         """
-        if user_email is None or user_pwd is None:
+        if user_email is None and user_pwd is None:
             return None
         if not isinstance(user_email, str) or not isinstance(user_pwd, str):
             return None
@@ -87,4 +87,18 @@ class BasicAuth(Auth):
         user = users[0]
         if not user.is_valid_password(user_pwd):
             return None
+        return user
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        BasicAuth that overloads Auth
+        and retrieves the User instance for a request
+        """
+        authorization_header = self.authorization_header(request=request)
+        extract_base64 = self.extract_base64_authorization_header(
+            authorization_header)
+        decode_base64 = self.decode_base64_authorization_header(extract_base64)
+        credential = self.extract_user_credentials(decode_base64)
+        user = self.user_object_from_credentials(user_email=credential[0],
+                                                 user_pwd=credential[1])
         return user
