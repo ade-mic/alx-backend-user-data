@@ -4,7 +4,7 @@ The module contains api/v1/auth/auth.py
 """
 from flask import request
 from typing import List, TypeVar
-
+import fnmatch
 
 class Auth:
     """
@@ -35,8 +35,10 @@ class Auth:
             path += '/'
 
         for excluded_path in excluded_paths:
-            if excluded_path.endswith('/') and path == excluded_path:
-                return False
+            if not excluded_path.endswith('/'):
+                excluded_path += '/'
+                if fnmatch.fnmatch(path, excluded_path):
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
