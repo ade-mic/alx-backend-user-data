@@ -41,7 +41,7 @@ class Auth:
                 excluded_path += '/'
             if fnmatch.fnmatch(path, excluded_path):
                 return False
-        return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
