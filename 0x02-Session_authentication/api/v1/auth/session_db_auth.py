@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+Create a new authentication class SessionDBAuth
+ in api/v1/auth/session_db_auth.py
+ that inherits from SessionExpAuth:
+"""
 from datetime import datetime, timedelta
 from typing import Optional
 from api.v1.auth.session_exp_auth import SessionExpAuth
