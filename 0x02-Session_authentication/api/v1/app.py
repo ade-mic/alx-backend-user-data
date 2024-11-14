@@ -31,7 +31,6 @@ elif auth == 'session_db_auth':
     auth = SessionDBAuth()
 
 
-
 @app.before_request
 def before_request():
     """
