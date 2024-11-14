@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Module of SessionExpAuth 
+Module of SessionExpAuth
 """
 from os import getenv
 from api.v1.auth.session_auth import SessionAuth
 from datetime import datetime, timedelta
+
 
 class SessionExpAuth(SessionAuth):
     """
@@ -47,7 +48,9 @@ class SessionExpAuth(SessionAuth):
             return session_dict.get('user_id')
         if 'created_at' not in session_dict:
             return None
-        created_at = session_dict.get('created_at')
-        if created_at + timedelta(seconds=self.session_duration) < datetime.now():
+        created_at = session_dict.get(
+            'created_at')
+        if created_at + timedelta(seconds=self.session_duration)\
+                < datetime.now():
             return None
         return session_dict.get('user_id')
