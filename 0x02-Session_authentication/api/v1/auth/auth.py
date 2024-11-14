@@ -5,6 +5,7 @@ The module contains api/v1/auth/auth.py
 from flask import request
 from typing import List, TypeVar
 import fnmatch
+from os import getenv
 
 
 class Auth:
@@ -58,3 +59,21 @@ class Auth:
         Returns None - request will be the Flask request object
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        Returns a cookie value from a request
+        Return:
+            None if request is None
+            The value of the cookie named _my_session_id
+            from request - the name of the cookie must be
+            defined by the environment variable SESSION_NAME
+            You must use .get() built-in for accessing the
+            cookie in the request cookies dictionary
+            You must use the environment variable SESSION_NAME
+            to define the name of the cookie used for the Session ID
+        """
+        if request is None:
+            return None
+        session_name = getenv('SESSION_NAME')
+        return request.cookies.get(session_name)
