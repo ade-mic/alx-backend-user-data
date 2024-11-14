@@ -10,7 +10,7 @@ class SessionDBAuth(SessionExpAuth):
     SessionDBAuth class that stores sessions in a database/file
     instead of memory for persistence across restarts.
     """
-    def create_session(self, user_id: Optional[str] = None) -> Optional[str]:
+    def create_session(self, user_id=None):
         """
         Create and store a new session in the database,
         returning the Session ID.
@@ -33,14 +33,12 @@ class SessionDBAuth(SessionExpAuth):
         if session_id is None:
             return None
 
-        # Look for a UserSession in the database by session_id
         user_sessions = UserSession.search({"session_id": session_id})
         if not user_sessions:
             return None
 
         user_session = user_sessions[0]
 
-        # Check session expiration
         if self.session_duration <= 0:
             return user_session.user_id
         created_at = user_session.created_at
@@ -61,12 +59,11 @@ class SessionDBAuth(SessionExpAuth):
         if session_id is None:
             return False
 
-        # Search for the session in the database and delete it
         user_sessions = UserSession.search({"session_id": session_id})
         if not user_sessions:
             return False
 
         user_session = user_sessions[0]
-        user_session.remove()  # Remove from database
+        user_session.remove()
 
         return True
