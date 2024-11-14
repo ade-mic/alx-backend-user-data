@@ -14,9 +14,7 @@ class SessionAuth(Auth):
         For the moment this class will be empty.
         It’s the first step for creating a new authentication mechanism:
     """
-    def __init__(self) -> None:
-        """Initialize SessionAuth"""
-        self.user_id_by_session_id = {}
+    user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
         """
@@ -28,13 +26,12 @@ class SessionAuth(Auth):
             Use this Session ID as key of the dictionary
             user_id_by_session_id - the value for this key must be user_id
         Return the Session ID
-        The same user_id can have multiple Session ID - indeed,
-        the user_id is the value in the dictionary user_id_by_session_id
+        The same user_id can have multiple Session ID - indeed, the user_id is the value in the dictionary user_id_by_session_id
         """
         if user_id is None:
             return None
         if not isinstance(user_id, str):
             return None
         session_id = str(uuid.uuid4())
-        self.user_id_by_session_id = {session_id: user_id}
+        self.user_id_by_session_id[session_id] = user_id
         return session_id
