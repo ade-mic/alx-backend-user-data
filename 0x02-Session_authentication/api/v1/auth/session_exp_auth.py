@@ -2,65 +2,82 @@
 """
 Module of SessionExpAuth
 """
-import os
-from datetime import datetime, timedelta
+from os import getenv
 from api.v1.auth.session_auth import SessionAuth
+from datetime import datetime, timedelta
 
 
 class SessionExpAuth(SessionAuth):
+    """
+    SessionExpAuth that inherits from SessionAuth with session
+      expiration.
+    """
+
     def __init__(self):
         """
-        Initialize session duration from the environment variable SESSION_DURATION.
-        If not set or invalid, default to 0 (no expiration).
+        Initialize SessionExpAuth with session duration
+          from environment variable.
         """
         super().__init__()
         try:
-            self.session_duration = int(os.getenv('SESSION_DURATION', 0))
+            self.session_duration = int(getenv('SESSION_DURATION', 0))
         except ValueError:
             self.session_duration = 0
 
     def create_session(self, user_id=None):
         """
-        Create a session ID and store it in the dictionary with the current timestamp.
+        Creates a session ID for a user and stores the user and timestamp
+        in a session dictionary if successful.
+
+        Args:
+            user_id (str): The user ID to create a session for.
+
+        Returns:
+            str: The created session ID, or None if creation failed.
         """
         session_id = super().create_session(user_id)
         if session_id is None:
             return None
 
-        # Create session dictionary with user_id and created_at timestamp
-        session_info = {
-            "user_id": user_id,
-            "created_at": datetime.now()
+        # Store session dictionary with user_id and created_at
+        session_dict = {
+            'user_id': user_id,
+            'created_at': datetime.now()
         }
-
-        # Store session info
-        self.user_id_by_session_id[session_id] = session_info
+        self.user_id_by_session_id[session_id] = session_dict
         return session_id
 
-    def user_id_for_session_id(self, session_id=None):
+    def user_id_for_session_id(self, session_id: str = None) -> str:
         """
-        Retrieve user_id if the session is still valid.
+        Retrieves the user ID associated with a session ID if the session
+        is still valid.
+
+        Args:
+            session_id (str): The session ID to retrieve the user ID for.
+
+        Returns:
+            str: The user ID associated with the session ID, or None if the
+                 session has expired or is invalid.
         """
         if session_id is None:
             return None
 
-        session_info = self.user_id_by_session_id.get(session_id)
-        if session_info is None:
+        session_dict = self.user_id_by_session_id.get(session_id)
+        if session_dict is None:
             return None
 
-        # Check if session duration is 0 (no expiration)
+        # If session_duration is 0 or less, session never expires
         if self.session_duration <= 0:
-            return session_info.get("user_id")
+            return session_dict.get('user_id')
 
-        # Check for created_at and expiration
-        created_at = session_info.get("created_at")
+        # Check for creation time and if the session has expired
+        created_at = session_dict.get('created_at')
         if created_at is None:
             return None
 
-        # Validate if the session has expired
-        expiration_time = created_at + timedelta(seconds=self.session_duration)
-        if expiration_time < datetime.now():
+        # Validate expiration
+        if created_at + timedelta(seconds=self.session_duration)\
+                < datetime.now():
             return None  # Session has expired
 
-        # Session is valid
-        return session_info.get("user_id")
+        return session_dict.get('user_id')
