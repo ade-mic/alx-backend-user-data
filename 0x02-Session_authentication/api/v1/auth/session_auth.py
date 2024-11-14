@@ -26,7 +26,9 @@ class SessionAuth(Auth):
             Use this Session ID as key of the dictionary
             user_id_by_session_id - the value for this key must be user_id
         Return the Session ID
-        The same user_id can have multiple Session ID - indeed, the user_id is the value in the dictionary user_id_by_session_id
+        The same user_id can have multiple Session ID -
+        indeed, the user_id is the value in the dictionary
+        user_id_by_session_id
         """
         if user_id is None:
             return None
