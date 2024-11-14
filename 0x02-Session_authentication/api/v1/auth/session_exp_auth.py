@@ -13,6 +13,7 @@ class SessionExpAuth(SessionAuth):
         Initialize session duration from the environment variable SESSION_DURATION.
         If not set or invalid, default to 0 (no expiration).
         """
+        super().__init__()
         try:
             self.session_duration = int(os.getenv('SESSION_DURATION', 0))
         except ValueError:
