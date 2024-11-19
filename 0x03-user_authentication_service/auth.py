@@ -55,10 +55,6 @@ class Auth:
         except NoResultFound:
             return False
 
-    def _generate_uuid(self) -> str:
-        """return a string representation of a new UUID"""
-        return uuid4()
-
     def create_session(self, email: str) -> str:
         """
         The method should find the user corresponding to the email,
@@ -87,3 +83,8 @@ def _hash_password(password: str) -> bytes:
     """
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode('utf-8'), salt)
+
+
+def _generate_uuid() -> str:
+    """return a string representation of a new UUID"""
+    return uuid4()
