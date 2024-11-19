@@ -77,12 +77,16 @@ class DB:
         If an argument that does not correspond to a user attribute
         is passed, raise a ValueError.
         """
-        user = self.find_user_by(id=user_id)
-
-        for key, value in kwargs.items():
-            if not hasattr(user, key):
-                raise ValueError(f"Attribute {key} does not exist on the\
-                                 User model")
-            setattr(user, key, value)
-        self._session.commit()
+        try:
+            user = self.find_user_by(id=user_id)
+            for key, value in kwargs.items():
+                if not hasattr(user, key):
+                    raise ValueError(f"Attribute {key} does not exist on the\
+                                        User model")
+                setattr(user, key, value)
+            self._session.commit()
+        except NoResultFound:
+            raise NoResultFound("No user found with the given ID")
+        except InvalidRequestError:
+            raise InvalidRequestError("Invalid query arguments")
         return None
