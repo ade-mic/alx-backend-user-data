@@ -68,7 +68,7 @@ class DB:
         except InvalidRequestError:
             raise InvalidRequestError("Invalid result")
 
-    def update_user(self, user_id:int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """
         Use find_user_by to locate the user to update,
         then will update the user’s attributes as passed

@@ -19,7 +19,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def register_user(self, email:str, password:str) -> User:
+    def register_user(self, email: str, password: str) -> User:
         """
         Auth.register_user should take mandatory
             Args:
@@ -34,16 +34,16 @@ class Auth:
         except NoResultFound:
             hashed_password = _hash_password(password)
             new_user = self._db.add_user(email=email,
-                                     hashed_password=hashed_password)
+                                         hashed_password=hashed_password)
             return new_user
 
-    def valid_login(self, email:str, password:str) -> bool:
+    def valid_login(self, email: str, password: str) -> bool:
         """
         expect
         Args:
             email(str)
             password(str)
-            required arguments and 
+            required arguments and
         Return
              boolean.
         """
@@ -59,10 +59,11 @@ class Auth:
         """return a string representation of a new UUID"""
         return uuid4()
 
-    def create_session(self, email:str) -> str:
+    def create_session(self, email: str) -> str:
         """
         The method should find the user corresponding to the email,
-        generate a new UUID and store it in the database as the user’s session_id
+        generate a new UUID and store it in the database as the
+        user’s session_id
         Args:
             email(str)
         Returns:
@@ -77,7 +78,7 @@ class Auth:
             return None
 
 
-def _hash_password( password: str) -> bytes:
+def _hash_password(password: str) -> bytes:
     """
     define a _hash_password method that takes in a password
     string arguments and returns bytes
