@@ -10,17 +10,21 @@ from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import User
 from user import Base
-from uuid import uuid4
 
 
 class DB:
     """DB class
+        methods:
+            ___init__
+            _session
+            add_user
+            find_user
     """
 
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
