@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""DB module
+"""
+DB module
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -37,13 +38,13 @@ class DB:
         """
         Returns a User object.
         The method should save the user to the database
-        Args: 
+        Args:
             email: str
             hashed_password: str
         """
         new_user = User(email=email,
-                    hashed_password=hashed_password
-                    )
+                        hashed_password=hashed_password
+                        )
         self._session.add(new_user)
         self._session.commit()
         return new_user
@@ -54,7 +55,7 @@ class DB:
         """
         if not kwargs:
             raise InvalidRequestError("No filter arguments provided.")
-        
+
         try:
             user = self._session.query(User).filter_by(**kwargs).one()
             return user
