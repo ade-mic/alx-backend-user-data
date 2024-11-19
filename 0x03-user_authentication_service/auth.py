@@ -123,7 +123,7 @@ class Auth:
         except NoResultFound:
             raise ValueError(f'user with {email} not found')
 
-    def update_password(self, reset_token, password):
+    def update_password(self, reset_token:str, password:str) -> None:
         """
         Use the reset_token to find the corresponding user.
         Args:
