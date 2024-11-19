@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""
+Create a new module called main.py.
+Create one function for each of the following tasks.
+Use the requests module to query your web server for the
+corresponding end-point. Use assert to validate the response’s
+expected status code and payload (if any) for each task.
+"""
 import requests
 
 BASE_URL = "http://localhost:5000"
