@@ -47,7 +47,7 @@ def login():
     return response
 
 
-@app.route("/logout", methods=['DELETE'])
+@app.route("/sessions", methods=['DELETE'])
 def logout():
     """
     implement logout function
