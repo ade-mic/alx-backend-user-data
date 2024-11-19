@@ -76,7 +76,7 @@ def profile():
 
     if user:
         response = make_response(jsonify(
-            {"email": "<user email>"}
+            {"email": user.email}
         ))
         return response, 200
     else:
