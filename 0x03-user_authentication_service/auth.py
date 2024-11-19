@@ -131,18 +131,17 @@ class Auth:
             password (str)
         Returns:
              None
-        Exceptions:
+        Raises:
             ValueError: if reset_token does not correspond to any user
         hash the password and update the user’s hashed_password field
         with the new hashed password and the reset_token field to None
         """
-        user = self._db.find_user_by(reset_token=reset_token)
-        if user:
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
             hash_password = _hash_password(password)
             self._db.update_user(user.id, hash_password=hash_password,
                                  reset_token=None)
-            return None
-        else:
+        except NoResultFound:
             raise ValueError('user does not exist')
 
 
