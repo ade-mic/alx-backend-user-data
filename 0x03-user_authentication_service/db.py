@@ -81,7 +81,8 @@ class DB:
 
         for key, value in kwargs.items():
             if not hasattr(user, key):
-                raise ValueError()
+                raise ValueError(f"Attribute {key} does not exist on the\
+                                 User model")
             setattr(user, key, value)
-
         self._session.commit()
+        return None
