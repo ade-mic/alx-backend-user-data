@@ -76,6 +76,8 @@ class Auth:
 
     def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
         """
+        It takes a single session_id string argument
+        and returns the corresponding User or None.
         Args:
             session_id(str)
         Returns:
@@ -88,6 +90,20 @@ class Auth:
             return user
         except NoResultFound:
             return None
+
+    def destroy_session(self, user_id: int) -> None:
+        """
+        updates the corresponding user’s session ID to None
+        Args:
+            user_id(int)
+        Return:
+            None
+        """
+        try:
+            self._db.update_user(user_id=user_id, session_id=None)
+            return None
+        except NoResultFound:
+            raise ValueError('No user found with the id')
 
 
 def _hash_password(password: str) -> bytes:
